@@ -53,7 +53,7 @@ resource "aws_lb_listener_rule" "asg-listen" {
 }
 
 resource "aws_launch_configuration" "ec2cluster" {
-	image_id = "ami-0ed9277fb7eb570c9"
+	image_id = "ami-0b2bed38d5cd22d50"
 	instance_type = "t2.micro"
  	security_groups = [var.security-group]
 	user_data = file("user-data.sh")
@@ -68,7 +68,8 @@ resource "aws_autoscaling_group" "asg" {
 	vpc_zone_identifier = [var.aws_subnet-1, var.aws_subnet-2, var.aws_subnet-3]
 	target_group_arns = [aws_lb_target_group.asg-tg.arn]
 	health_check_type = "ELB"
-	min_size = 3
+	min_size = 2
+  desired_capacity = 3
 	max_size = 6
 	tag {
 	  key = "Name"
